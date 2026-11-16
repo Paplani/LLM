@@ -1,0 +1,52 @@
+# 텍스트 => 요약, 키워드 추출, 분류, 감정분석, 어조 분석
+
+from ollama import Client
+import gradio as gr
+
+
+OLLAMA_HOST = "http://localhost:11434"
+MODEL = "qwen3.5:9b"
+
+client = Client(host=OLLAMA_HOST)
+
+
+SYSTEM = "너는 이미지 분석 전문가야. 이미지에 대한 설명을 해줘"
+
+
+def analyze(image, question):
+
+    # 이미지가 없다면 이미지 업로드 해주세요, return 
+    # 이미지가 있다면 모델한테 이미지 설명 요청
+
+    if image is None:
+        return "이미지를 업로드 해주세요"
+
+
+
+    response = client.chat(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": SYSTEM},
+            {"role": "user", "content": f"{question}", "images":[image]},
+        ],
+        stream=False,
+        think=False,
+    )
+
+    return response.message.content
+
+
+demo = gr.Interface(
+    fn=analyze,
+    inputs=[
+        gr.Image(type="filepath", label="이미지 업로드"),
+        gr.Textbox(
+            value="이미지에 무엇이 있는지 자세히 설명해 줘", label="질문"
+        ),
+    ],
+    outputs=gr.Markdown(),
+    title="AI Image Analyzer",
+    description="Qwen3.5:9B 기반 이미지 분석 서비스",
+)
+
+demo.launch(debug=True)

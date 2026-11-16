@@ -1,0 +1,34 @@
+[project]
+name = "llm"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Paplani", email = "Sanghyeun0424@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "accelerate>=1.15.0",
+    "bitsandbytes>=0.46.1",
+    "gradio>=6",
+    "ipykernel>=7.4.0",
+    "matplotlib>=3.11.2",
+    "ollama>=0.6.3",
+    "openai>=3.46.0",
+    "openpyxl>=3.1.5",
+    "pandas>=3.1.0",
+    "pillow<13",
+    "python-dotenv>=1.2.4",
+    "requests>=2.34.2",
+    "scikit-learn>=1.9.1",
+    "torch>=2.15.0",
+    "transformers>=5.22.1",
+    "yfinance>=1.8.0",
+]
+
+[project.scripts]
+llm = "llm:main"
+
+[build-system]
+requires = ["uv_build>=0.12.8,<0.13.0"]
+build-backend = "uv_build"
